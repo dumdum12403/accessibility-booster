@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccessibilityBooster - Make Any Website Accessible Instantly</title>
+    <meta name="description" content="Free tool that instantly makes any website easier to use for ADHD, seniors, vision needs, and more. Works on Amazon, news sites, anywhere.">
+    <meta name="keywords" content="accessibility, ADHD, seniors, vision, website, bookmarklet, free tool">
+    
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="AccessibilityBooster - Free Website Accessibility Tool">
+    <meta property="og:description" content="Instantly transform any website for ADHD, seniors, and vision needs. Free bookmarklet works everywhere.">
+    <meta property="og:type" content="website">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .hero {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .bookmarklet-container {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 3px dashed #007cba;
+        }
+        
+        .bookmarklet {
+            display: inline-block;
+            background: linear-gradient(45deg, #007cba, #0056b3);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+            border: none;
+            cursor: move;
+            box-shadow: 0 6px 20px rgba(0,124,186,0.3);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .bookmarklet:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,124,186,0.4);
+        }
+        
+        .bookmarklet:active {
+            transform: translateY(0);
+        }
+        
+        .drag-instructions {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .feature p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .instructions {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .step {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #007cba;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            background: #007cba;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .demo-sites {
+            background: #e8f4f8;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .demo-sites h3 {
+            color: #007cba;
+            margin-bottom: 15px;
+        }
+        
+        .site-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .test-site {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #007cba;
+            transition: all 0.3s ease;
+        }
+        
+        .test-site:hover {
+            background: #007cba;
+            color: white;
+        }
+        
+        .feedback-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .mobile-warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                padding: 25px;
+            }
+            
+            .bookmarklet {
+                font-size: 18px;
+                padding: 15px 30px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation for page load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero, .features, .instructions {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .feature:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .feature:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🚀 AccessibilityBooster</h1>
+            <p class="subtitle">Make any website instantly accessible for everyone</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">71%</span>
+                    <span>of users abandon inaccessible sites</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">$1T</span>
+                    <span>in untapped buying power</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">15-20%</span>
+                    <span>of people need accessibility tools</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="hero">
+            <h2 style="color: #333; margin-bottom: 20px;">Transform Any Website in One Click</h2>
+            <p style="font-size: 18px; color: #666; margin-bottom: 30px;">
+                Perfect for ADHD, seniors, vision needs, and anyone who struggles with overwhelming websites.
+                Works instantly on Amazon, news sites, government pages, and more.
+            </p>
+            
+            <div class="mobile-warning">
+                <strong>📱 Mobile Users:</strong> This tool works best on desktop/laptop computers. 
+                Mobile bookmarklets have browser limitations.
+            </div>
+            
+            <div class="bookmarklet-container">
+                <h3 style="margin-bottom: 15px; color: #333;">👆 Drag this button to your bookmarks bar:</h3>
+                
+                <a href="javascript:(function(){if(window.accessibilityBooster){alert('AccessibilityBooster is already running!');return;}window.accessibilityBooster=true;var script=document.createElement('script');script.onload=function(){if(window.initAccessibilityBooster)window.initAccessibilityBooster()};script.onerror=function(){alert('Failed to load AccessibilityBooster. Please check your internet connection.')};script.src='https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/accessibility-booster@main/booster.js?v='+Date.now();document.head.appendChild(script)})();" 
+                   class="bookmarklet" 
+                   onclick="return false;"
+                   title="Drag this to your bookmarks bar">
+                    📱 AccessibilityBooster
+                </a>
+                
+                <div class="drag-instructions">
+                    ↑ Right-click and "Add to bookmarks" or drag to bookmarks bar
+                </div>
+                
+                <p style="margin-top: 20px; font-weight: bold; color: #007cba;">
+                    Then visit any website and click your new bookmark!
+                </p>
+            </div>
+        </main>
+
+        <section class="features">
+            <div class="feature">
+                <span class="feature-icon">🎯</span>
+                <h3>Focus Mode</h3>
+                <p>Perfect for ADHD and attention challenges. Removes distracting animations, highlights important content, and makes buttons more prominent. Helps you focus on what matters.</p>
+            </div>
+            
+            <div class="feature">
+                <span class="feature-icon">👴</span>
+                <h3>Senior Mode</h3>
+                <p>Larger fonts (20px+), bigger clickable buttons, simplified navigation, and more spacing. Makes any website easier to read and navigate for older adults.</p>
+            </div>
+            
+            <div class="feature">
+                <span class="feature-icon">🔆</span>
+                <h3>High Contrast</h3>
+                <p>Dark background with bright text, enhanced contrast ratios, and improved visibility. Perfect for low vision, light sensitivity, or late-night browsing.</p>
+            </div>
+        </section>
+
+        <section class="instructions">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">📋 How to Install & Use</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Show your bookmarks bar:</strong> Press Ctrl+Shift+B (Chrome/Firefox) or Cmd+Shift+B (Mac) to make sure your bookmarks bar is visible.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Add the bookmarklet:</strong> Drag the blue "AccessibilityBooster" button above to your bookmarks bar. You can also right-click it and select "Add to bookmarks."
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Visit any website:</strong> Go to Amazon, a news site, government page, or any website you find difficult to use.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Click your bookmark:</strong> Click the AccessibilityBooster bookmark you just added. A control panel will appear in the top-right corner.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Choose your mode:</strong> Select Focus Mode, Senior Mode, or High Contrast based on your needs. Watch the page transform instantly!
+            </div>
+        </section>
+
+        <section class="demo-sites">
+            <h3>🧪 Best Websites to Test On</h3>
+            <p>Try AccessibilityBooster on these sites to see the dramatic improvements:</p>
+            
+            <div class="site-grid">
+                <div class="test-site">
+                    <strong>Amazon.com</strong><br>
+                    <small>Complex e-commerce layout</small>
+                </div>
+                <div class="test-site">
+                    <strong>CNN.com</strong><br>
+                    <small>Text-heavy with many ads</small>
+                </div>
+                <div class="test-site">
+                    <strong>Wikipedia.org</strong><br>
+                    <small>Dense information pages</small>
+                </div>
+                <div class="test-site">
+                    <strong>Government Sites</strong><br>
+                    <small>Often poorly designed</small>
+                </div>
+                <div class="test-site">
+                    <strong>Online Stores</strong><br>
+                    <small>Small text and buttons</small>
+                </div>
+                <div class="test-site">
+                    <strong>This Page!</strong><br>
+                    <small>See how it transforms</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="feedback-section">
+            <h2 style="color: #333; margin-bottom: 20px;">💬 Help Us Improve!</h2>
+            <p style="margin-bottom: 30px; color: #666;">
+                AccessibilityBooster is <strong>100% free</strong> and made for the community. 
+                Your feedback helps us make the web more accessible for everyone.
+            </p>
+            
+            <div style="margin: 30px 0;">
+                <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" target="_blank" class="cta-button">
+                    📝 Give Feedback (2 minutes)
+                </a>
+                <a href="mailto:your-email@gmail.com?subject=AccessibilityBooster%20Feedback" class="cta-button">
+                    📧 Report Issues
+                </a>
+            </div>
+            
+            <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee;">
+                <h3 style="color: #333; margin-bottom: 15px;">Quick Questions We'd Love to Know:</h3>
+                <ul style="text-align: left; max-width: 500px; margin: 0 auto; color: #666;">
+                    <li>Which accessibility mode did you try?</li>
+                    <li>What website did you test it on?</li>
+                    <li>How much did it help? (1-5 scale)</li>
+                    <li>Would you recommend this to others?</li>
+                    <li>Any bugs or suggestions?</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>Made with ❤️ for the accessibility community</p>
+        <p style="margin-top: 10px;">
+            <a href="https://github.com/YOUR_GITHUB_USERNAME/accessibility-booster" style="color: white;">View on GitHub</a> | 
+            <a href="mailto:your-email@gmail.com" style="color: white;">Contact</a>
+        </p>
+    </footer>
+
+    <!-- Analytics and Tracking -->
+    <script>
+        // Simple engagement tracking
+        let analytics = {
+            pageLoad: Date.now(),
+            bookmarkletClicked: false,
+            timeSpent: 0
+        };
+
+        // Track bookmarklet interaction
+        document.querySelector('.bookmarklet').addEventListener('mousedown', function() {
+            analytics.bookmarkletClicked = true;
+            analytics.timeSpent = Date.now() - analytics.pageLoad;
+            
+            console.log('📊 AccessibilityBooster Analytics:', analytics);
+            
+            // You can send this data to your analytics service
+            // fetch('/analytics', { method: 'POST', body: JSON.stringify(analytics) });
+        });
+
+        // Track time on page
+        window.addEventListener('beforeunload', function() {
+            analytics.timeSpent = Date.now() - analytics.pageLoad;
+            console.log('📊 Session Analytics:', analytics);
+        });
+
+        // Show installation help for mobile users
+        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            console.log('📱 Mobile user detected - bookmarklet functionality limited');
+        }
+
+        // Page load tracking
+        console.log('🚀 AccessibilityBooster landing page loaded');
+        console.log('💡 Ready for testing and feedback collection');
+    </script>
+
+    <!-- Optional: Google Analytics -->
+    <!-- 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'YOUR_GA_ID');
+    </script>
+    -->
+</body>
+</html>
