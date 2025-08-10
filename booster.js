@@ -29,8 +29,8 @@
         stylePrefix: 'ab-style-',
         messageId: 'ab-message',
         zIndex: 2147483647,
-        feedbackEmail: 'your-email@gmail.com',
-        githubRepo: 'YOUR_GITHUB_USERNAME/accessibility-booster'
+        feedbackEmail: 'alangarseneau@gmail.com',
+        githubRepo: 'dumdum12403/accessibility-booster'
     };
     
     // Utility functions
